@@ -43,6 +43,7 @@ class _LoginState extends State<Login> {
                             color: Colors.grey,
                           ),
                           hintText: 'Email'),
+                      keyboardType: TextInputType.emailAddress,
                     ),
                   ),
                 ),
