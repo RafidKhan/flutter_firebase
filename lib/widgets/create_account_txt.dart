@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:login_reg/pages/sign_up_page.dart';
+import 'package:login_reg/pages/sign_up_screen.dart';
 
 
 class CreateAccountTxt extends StatefulWidget {
