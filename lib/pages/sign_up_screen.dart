@@ -19,6 +19,7 @@ class _SignUpState extends State<SignUp> {
           key: formState,
           child: Column(
             children: [
+
               Image.asset('assets/wave.png'),
               Padding(
                 padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
