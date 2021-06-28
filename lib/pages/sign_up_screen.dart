@@ -8,7 +8,7 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  final GlobalKey<FormState> formStateSignUp = GlobalKey();
+  final GlobalKey<FormState> formState = GlobalKey();
   TextEditingController passwordController = new TextEditingController();
 
   @override
@@ -16,7 +16,7 @@ class _SignUpState extends State<SignUp> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Form(
-          key: formStateSignUp,
+          key: formState,
           child: Column(
             children: [
               Image.asset('assets/wave.png'),

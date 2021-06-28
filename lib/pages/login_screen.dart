@@ -10,14 +10,14 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  final GlobalKey<FormState> formStateLogin = GlobalKey();
+  final GlobalKey<FormState> formState = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Form(
-          key: formStateLogin,
+          key: formState,
           child: Column(
             children: [
               Image.asset('assets/wave.png'),
