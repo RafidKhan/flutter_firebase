@@ -19,49 +19,25 @@ class _SignUpState extends State<SignUp> {
   AuthenticationService _authenticationService = new AuthenticationService();
   DatabaseMethod _databaseMethod = new DatabaseMethod();
 
-  // RegisterAccount() async {
-  //   dynamic result = await _authenticationService.signUpWithEmailAndPassword(
-  //       _emailEditingController.text.trim(), _passwordController.text.trim());
-  //   if (result == null) {
-  //     print('Email Invalid');
-  //   } else {
-  //     if (formkey.currentState.validate()) {
-  //       Map<String, String> userDataMap = {
-  //         "email": _emailEditingController.text,
-  //         "password": _passwordController.text,
-  //       };
-  //       await _authenticationService
-  //           .signUpWithEmailAndPassword(
-  //           _emailEditingController.text, _passwordController.text)
-  //           .then((result) {
-  //         _databaseMethod.uploadUserInfo(userDataMap);
-  //         Navigator.pushReplacement(
-  //             context, MaterialPageRoute(builder: (context) => Login()));
-  //       });
-  //     }
-  //   }
-  // }
-
   RegisterUser() async {
     dynamic result = await _authenticationService.signUpWithEmailAndPassword(
         _nameEditingController.text.trim(),
         _emailEditingController.text.trim(),
-        _passwordController.text.trim()
-    );
+        _passwordController.text.trim());
     if (formkey.currentState.validate()) {
       if (result == null) {
         print('Email Invalid');
       } else {
         Map<String, String> userDataMap = {
-          "name" : _nameEditingController.text.trim(),
+          "name": _nameEditingController.text.trim(),
           "email": _emailEditingController.text.trim(),
           "password": _passwordController.text.trim(),
         };
         await _authenticationService
             .signUpWithEmailAndPassword(
-            _nameEditingController.text,
-            _emailEditingController.text,
-            _passwordController.text)
+                _nameEditingController.text.trim(),
+                _emailEditingController.text.trim(),
+                _passwordController.text.trim())
             .then((result) {
           _databaseMethod.uploadUserInfo(userDataMap);
           Navigator.pushReplacement(
@@ -129,16 +105,13 @@ class _SignUpState extends State<SignUp> {
                             color: Colors.grey,
                           ),
                           hintText: 'Email'),
-                      //keyboardType: TextInputType.emailAddress,
+                      keyboardType: TextInputType.emailAddress,
                       validator: (value) {
                         if (value.isNotEmpty && !value.contains('@')) {
                           return 'Invalid Email Address';
                         } else {
                           return null;
                         }
-                        // return value.isEmpty || value.length < 1
-                        //     ? "Please Enter Valid email"
-                        //     : null;
                       },
                     ),
                   ),
@@ -162,12 +135,11 @@ class _SignUpState extends State<SignUp> {
                           ),
                           hintText: 'Password'),
                       validator: (value) {
-                        if (value.isEmpty && value.length<6)
-                        {
+                        if (value.length < 6) {
                           return 'Please Enter a 6 Digit Password';
-                        }
-                        else
-                        {
+                        } else if (value.isEmpty) {
+                          return null;
+                        } else {
                           return null;
                         }
                       },
@@ -192,12 +164,10 @@ class _SignUpState extends State<SignUp> {
                           ),
                           hintText: 'Confirm Password'),
                       validator: (value) {
-                        if (value.isEmpty && value!= _passwordController.text.trim())
-                        {
+                        if (value.isEmpty &&
+                            value != _passwordController.text.trim()) {
                           return 'Please Not Matched';
-                        }
-                        else
-                        {
+                        } else {
                           return null;
                         }
                       },

@@ -1,5 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:login_reg/models/authentication.dart';
+import 'package:login_reg/models/database_methods.dart';
 import 'package:login_reg/pages/home_page_screen.dart';
 import 'package:login_reg/pages/sign_up_screen.dart';
 import 'package:login_reg/widgets/create_account_txt.dart';
@@ -11,14 +14,39 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  final GlobalKey<FormState> formState = GlobalKey();
+  final formkey = GlobalKey<FormState>();
+
+  TextEditingController _passwordController = new TextEditingController();
+  TextEditingController _emailEditingController = new TextEditingController();
+  AuthenticationService _authenticationService = new AuthenticationService();
+  DatabaseMethod _databaseMethod = new DatabaseMethod();
+
+  void LoginUser() async{
+    dynamic authResult = await _authenticationService.logInWithEmailAndPassword(_emailEditingController.text.trim(), _passwordController.text.trim());
+    if(authResult==null)
+      {
+        print("Sign In Error");
+      }
+    else{
+      _emailEditingController.clear();
+      _passwordController.clear();
+      print("Login Succesfull");
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => HomePage(),
+        ),
+      );
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Form(
-          key: formState,
+          key: formkey,
           child: Column(
             children: [
               Image.asset('assets/wave.png'),
@@ -37,6 +65,7 @@ class _LoginState extends State<Login> {
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
                     child: TextFormField(
+                      controller: _emailEditingController,
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           icon: Icon(
@@ -44,17 +73,12 @@ class _LoginState extends State<Login> {
                             color: Colors.grey,
                           ),
                           hintText: 'Email'),
-                      validator: (value)
-                      {
-                        if(value.isEmpty || !value.contains('@'))
-                        {
-                          return 'invalid email';
+                      validator: (value) {
+                        if (value.isNotEmpty && !value.contains('@')) {
+                          return 'Invalid Email Address';
+                        } else {
+                          return null;
                         }
-                        return null;
-                      },
-                      onSaved: (value)
-                      {
-
                       },
                       keyboardType: TextInputType.emailAddress,
                     ),
@@ -69,6 +93,7 @@ class _LoginState extends State<Login> {
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
                     child: TextFormField(
+                      controller: _passwordController,
                       obscureText: true,
                       decoration: InputDecoration(
                           border: InputBorder.none,
@@ -77,16 +102,14 @@ class _LoginState extends State<Login> {
                             color: Colors.grey,
                           ),
                           hintText: 'Password'),
-                      validator: (value)
-                      {
-                        if(value.isEmpty)
-                        {
-                          return 'invalid password';
+                      validator: (value) {
+                        if (value.length < 6) {
+                          return 'Please Enter a 6 Digit Password';
+                        } else if (value.isEmpty) {
+                          return null;
+                        } else {
+                          return null;
                         }
-                        return null;
-                      },
-                      onSaved: (value){
-
                       },
                     ),
                   ),
@@ -100,12 +123,7 @@ class _LoginState extends State<Login> {
                     buttonText: 'Login',
                   ),
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => HomePage(),
-                      ),
-                    );
+                    LoginUser();
                   },
                 ),
               ),
