@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:login_reg/pages/welcome_screen.dart';
-import 'package:login_reg/widgets/create_account_txt.dart';
+import 'package:login_reg/models/authentication.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,7 +16,6 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         //accentColor: Color(0x99c2ff),
       ),
-
       home: WelcomePage(),
     );
   }
