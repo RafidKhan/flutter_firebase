@@ -107,7 +107,7 @@ class _SignUpState extends State<SignUp> {
                           hintText: 'Email'),
                       keyboardType: TextInputType.emailAddress,
                       validator: (value) {
-                        if (value.isNotEmpty && !value.contains('@')) {
+                        if (value.isEmpty && !value.contains('@')) {
                           return 'Invalid Email Address';
                         } else {
                           return null;
@@ -135,10 +135,8 @@ class _SignUpState extends State<SignUp> {
                           ),
                           hintText: 'Password'),
                       validator: (value) {
-                        if (value.length < 6) {
-                          return 'Please Enter a 6 Digit Password';
-                        } else if (value.isEmpty) {
-                          return null;
+                        if (value.isEmpty || value.length < 6) {
+                          return 'Invalid Password';
                         } else {
                           return null;
                         }
@@ -164,9 +162,8 @@ class _SignUpState extends State<SignUp> {
                           ),
                           hintText: 'Confirm Password'),
                       validator: (value) {
-                        if (value.isEmpty &&
-                            value != _passwordController.text.trim()) {
-                          return 'Please Not Matched';
+                        if (value.isEmpty || value != _passwordController.text.trim()) {
+                          return 'Password Not Matched';
                         } else {
                           return null;
                         }

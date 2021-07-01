@@ -11,7 +11,7 @@ class _UserProfileState extends State<UserProfile> {
   String userName = "";
   String userEmail = "";
 
-  fetch() async {
+  fetchUserData() async {
     final firebaseUser = await FirebaseAuth.instance.currentUser();
     if (firebaseUser != null) {
       await Firestore.instance
@@ -30,7 +30,18 @@ class _UserProfileState extends State<UserProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(userName), automaticallyImplyLeading: false),
+      appBar: AppBar(title: FutureBuilder(
+        future: fetchUserData(),
+        builder: (context, snapshot){
+          if(snapshot.connectionState!= ConnectionState.done)
+          {
+            return Text('Loading Name',style: TextStyle(fontSize: 15.0),);
+          }
+          else{
+            return Text(userName, style: TextStyle(fontSize: 15.0),);
+          }
+        },
+      ), automaticallyImplyLeading: false),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.fromLTRB(0.0,10.0,10.0,10.0),
@@ -46,7 +57,7 @@ class _UserProfileState extends State<UserProfile> {
                         style: TextStyle(fontSize: 15.0),
                       ),
                       FutureBuilder(
-                        future: fetch(),
+                        future: fetchUserData(),
                           builder: (context, snapshot){
                           if(snapshot.connectionState!= ConnectionState.done)
                             {
@@ -72,7 +83,7 @@ class _UserProfileState extends State<UserProfile> {
                         style: TextStyle(fontSize: 15.0),
                       ),
                       FutureBuilder(
-                        future: fetch(),
+                        future: fetchUserData(),
                         builder: (context, snapshot){
                           if(snapshot.connectionState!= ConnectionState.done)
                           {
